@@ -47,7 +47,7 @@ export interface IStorage {
   markNotificationAsRead(id: string): Promise<boolean>;
   
   // Session store
-  sessionStore: session.SessionStore;
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
@@ -57,7 +57,7 @@ export class MemStorage implements IStorage {
   private likes: Map<string, Like>;
   private follows: Map<string, Follow>;
   private notifications: Map<string, Notification>;
-  public sessionStore: session.SessionStore;
+  public sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
@@ -89,6 +89,8 @@ export class MemStorage implements IStorage {
     const user: User = {
       ...insertUser,
       id,
+      bio: insertUser.bio ?? null,
+      avatar: insertUser.avatar ?? null,
       createdAt: new Date(),
     };
     this.users.set(id, user);
@@ -180,6 +182,7 @@ export class MemStorage implements IStorage {
     const story: Story = {
       ...insertStory,
       id,
+      coverImage: insertStory.coverImage ?? null,
       publishedAt: new Date(),
       isPublished: true,
     };
@@ -326,6 +329,8 @@ export class MemStorage implements IStorage {
     const notification: Notification = {
       ...data,
       id,
+      storyId: data.storyId ?? null,
+      commentId: data.commentId ?? null,
       isRead: false,
       createdAt: new Date(),
     };

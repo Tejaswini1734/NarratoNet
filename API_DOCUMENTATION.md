@@ -116,3 +116,25 @@ The application automatically creates sample data on first run, including:
 - ✅ Sample data for development/testing
 
 The backend is now fully compatible with MERN stack patterns while maintaining the existing frontend functionality.
+
+## 🗄️ Database Integration
+
+**PostgreSQL Database**: Successfully integrated with Drizzle ORM for production-ready data persistence.
+
+### Database Features:
+- ✅ **PostgreSQL with Drizzle ORM** - Type-safe database operations
+- ✅ **Automatic schema management** - Tables created via `npm run db:push`
+- ✅ **UUID primary keys** - Secure and unique identifiers
+- ✅ **Optimized queries** - Efficient joins and indexes
+- ✅ **Migration support** - Schema versioning and updates
+- ✅ **Sample data seeding** - Automatic development data population
+
+### Database Tables:
+- **users** - User accounts and profiles
+- **stories** - Story content and metadata
+- **comments** - User comments on stories
+- **likes** - Story likes and reactions
+- **follows** - User following relationships
+- **notifications** - User activity notifications
+
+The application now provides **persistent data storage** with all the benefits of a production database while maintaining the same API interface.

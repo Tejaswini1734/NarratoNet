@@ -46,6 +46,10 @@ export interface IStorage {
   createNotification(notification: { type: string; userId: string; fromUserId: string; storyId?: string; commentId?: string }): Promise<Notification>;
   markNotificationAsRead(id: string): Promise<boolean>;
   
+  // Additional story operations for enhanced features
+  getStoriesByAuthorForFeed(authorId: string, limit?: number, offset?: number): Promise<StoryWithAuthor[]>;
+  getFeedForUser(userId: string, limit?: number, offset?: number): Promise<StoryWithAuthor[]>;
+  
   // Session store
   sessionStore: session.Store;
 }
@@ -345,6 +349,41 @@ export class MemStorage implements IStorage {
     notification.isRead = true;
     this.notifications.set(id, notification);
     return true;
+  }
+
+  // Additional story operations for enhanced features
+  async getStoriesByAuthorForFeed(authorId: string, limit = 20, offset = 0): Promise<StoryWithAuthor[]> {
+    const stories = Array.from(this.stories.values())
+      .filter(s => s.authorId === authorId && s.isPublished)
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(offset, offset + limit);
+
+    const storiesWithAuthor = await Promise.all(stories.map(async (story) => {
+      const storyWithAuthor = await this.getStoryWithAuthor(story.id);
+      return storyWithAuthor!;
+    }));
+    return storiesWithAuthor;
+  }
+
+  async getFeedForUser(userId: string, limit = 20, offset = 0): Promise<StoryWithAuthor[]> {
+    // Get users the current user follows
+    const followedUsers = Array.from(this.follows.values())
+      .filter(f => f.followerId === userId)
+      .map(f => f.followingId);
+
+    // Get stories from followed users + user's own stories
+    const allAuthorIds = [...followedUsers, userId];
+    
+    const stories = Array.from(this.stories.values())
+      .filter(s => allAuthorIds.includes(s.authorId) && s.isPublished)
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(offset, offset + limit);
+
+    const storiesWithAuthor = await Promise.all(stories.map(async (story) => {
+      const storyWithAuthor = await this.getStoryWithAuthor(story.id);
+      return storyWithAuthor!;
+    }));
+    return storiesWithAuthor;
   }
 }
 

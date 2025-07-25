@@ -37,6 +37,12 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize sample data if needed
+  const { seedData, shouldSeedData } = await import("./seedData");
+  if (await shouldSeedData()) {
+    await seedData();
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

@@ -7,6 +7,8 @@ NarratoNet is a full-stack story sharing platform that allows users to read, wri
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Backend structure preference: MERN stack pattern with organized controllers, routes, and models.
+Feature requirements: Comprehensive story management, social interactions, and notification system.
 
 ## System Architecture
 
@@ -112,3 +114,31 @@ The application uses 5 main entities:
 - Supports both development and production environments
 
 The application is designed to be deployed on platforms like Replit, with configuration for development banners and runtime error overlays in development mode.
+
+## Recent Changes (January 2025)
+
+### Backend Enhancement and MERN-style Organization
+- **Created organized backend structure** with separate controllers, routes, and models folders
+- **Added comprehensive Story Controller** with all required CRUD operations and interactions
+- **Implemented enhanced API routes**:
+  - POST /api/stories/post - Create new stories
+  - PUT /api/stories/edit/:id - Edit existing stories  
+  - DELETE /api/stories/delete/:id - Delete stories
+  - GET /api/stories/feed - Get personalized story feed
+  - GET /api/stories/genre/:name - Filter stories by genre
+  - GET /api/stories/search?q=... - Search stories by content
+  - GET /api/stories/:storyId - Get individual story details
+  - POST /api/stories/:id/like - Like/unlike stories
+  - POST /api/stories/:id/comment - Comment on stories
+  - POST /api/stories/:id/subscribe - Subscribe to story authors
+- **Enhanced Notification System** with dedicated controller and routes
+- **Added sample data seeding** for development and testing
+- **Improved storage interface** with additional methods for personalized feeds
+- **Maintained backward compatibility** with existing frontend components
+
+### Architecture Improvements
+- **Modular route organization** following MERN stack best practices
+- **Controller-based business logic** separation for better maintainability
+- **Enhanced type safety** with proper TypeScript interfaces
+- **Model validation utilities** for data integrity
+- **Automatic sample data initialization** for new installations

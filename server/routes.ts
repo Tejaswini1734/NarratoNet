@@ -3,10 +3,16 @@ import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { insertStorySchema, insertCommentSchema } from "@shared/schema";
+import storyRoutes from "./routes/storyRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
 
 export function registerRoutes(app: Express): Server {
   // sets up /api/register, /api/login, /api/logout, /api/user
   setupAuth(app);
+
+  // Register new organized routes
+  app.use("/api/stories", storyRoutes);
+  app.use("/api/notifications", notificationRoutes);
 
   // Story routes
   app.get("/api/stories", async (req, res) => {
